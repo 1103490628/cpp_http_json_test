@@ -9,7 +9,7 @@
 using namespace httplib;
 using namespace std;
 
-void switchHandle(const Request &req, Response &res) {
+int switchHandle(const Request &req, Response &res) {
     string reqJsonString = req.body;
     Json::Reader reader;
     Json::Value reqJsonValue;
