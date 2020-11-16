@@ -8,7 +8,12 @@
 
 using namespace httplib;
 using namespace std;
-
+{
+        "sourceLevel1": "PL0001",
+        "sourceLevel2": "BF0001",
+        "sourceLevel3": "BC0001",
+        "startTag": true
+      }
 bool stop = false;
 int main(void) {
     httplib::Server svr;
@@ -21,18 +26,18 @@ int main(void) {
             cout << "reader parse error: " << strerror(errno) << endl;
             return -1;
         }
-        string name;
-        int age;
-        int size;
+        string sourceLevel1, sourceLevel2, sourceLevel3;
+        bool startTag;
 
-        size = root.size();
-        cout << "total " << size << " elements" << endl;
-        for (int i = 0; i < size; ++i){
-            name = root[i]["name"].asString();
-            age = root[i]["age"].asInt();
+        sourceLevel1 = root["sourceLevel1"].asString();
+        sourceLevel2 = root["sourceLevel2"].asString();
+        sourceLevel3 = root["sourceLevel3"].asString();
+        startTag = root["startTag"].asBool();
 
-            cout << "name: " << name << ", age: " << age << endl;
-        }
+        cout << "sourceLevel1: " << sourceLevel1 << endl;
+        cout << "sourceLevel1: " << sourceLevel1 << endl;
+        cout << "sourceLevel1: " << sourceLevel1 << endl;
+        cout << "startTag: " << startTag << endl;
         res.set_content(json, "text/plain");
     });
 
