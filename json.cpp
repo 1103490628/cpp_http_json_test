@@ -12,7 +12,11 @@ bool stop = false;
 int main(void) {
     httplib::Server svr;
     svr.Post("/hi", [](const Request &req, Response &res) {
-        string json = req.body;
+        string json = R"[=======]({
+        "sourceLevel1": "PL0001",
+        "sourceLevel2": "BF0001",
+        "sourceLevel3": "BC0001",
+        "startTag": true})[=======]";
         Json::Reader reader;
         Json::Value root;
         if (!reader.parse(json, root))
