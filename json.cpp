@@ -8,12 +8,6 @@
 
 using namespace httplib;
 using namespace std;
-{
-        "sourceLevel1": "PL0001",
-        "sourceLevel2": "BF0001",
-        "sourceLevel3": "BC0001",
-        "startTag": true
-      }
 bool stop = false;
 int main(void) {
     httplib::Server svr;
