@@ -12,10 +12,10 @@ using namespace std;
 bool stop = false;
 int main(void) {
     httplib::Server svr;
-    Json::Reader reader;
-    Json::Value root;
     svr.Post("/hi", [](const Request &req, Response &res) {
         string json = req.body;
+        Json::Reader reader;
+        Json::Value root;
         if (!reader.parse(json, root))
         {
             cout << "reader parse error: " << strerror(errno) << endl;
