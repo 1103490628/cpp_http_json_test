@@ -2,35 +2,40 @@
 #include <jsoncpp/json/json.h>
 #include <errno.h>
 #include <string.h>
+#include <sstream>
 
+#include "httplib.h"
+
+using namespace httplib;
 using namespace std;
 
-int main(void)
-{
-
+bool stop = false;
+int main(void) {
+    httplib::Server svr;
     Json::Reader reader;
     Json::Value root;
-    string s = R"[=======]([{"name":"姓名", "age":27}])[=======]";
+    svr.Post("/hi", [](const Request &req, Response &res) {
+        string json = req.body;
+        if (!reader.parse(json, root))
+        {
+            cout << "reader parse error: " << strerror(errno) << endl;
+            return -1;
+        }
+        string name;
+        int age;
+        int size;
 
-    if (!reader.parse(s, root))
-    {
-        cout << "reader parse error: " << strerror(errno) << endl;
-        return -1;
-    }
+        size = root.size();
+        cout << "total " << size << " elements" << endl;
+        for (int i = 0; i < size; ++i){
+            name = root[i]["name"].asString();
+            age = root[i]["age"].asInt();
 
-    string name;
-    int age;
-    int size;
+            cout << "name: " << name << ", age: " << age << endl;
+        }
+        res.set_content(json, "text/plain");
+    });
 
-    size = root.size();
-    cout << "total " << size << " elements" << endl;
-    for (int i = 0; i < size; ++i)
-    {
-        name = root[i]["name"].asString();
-        age = root[i]["age"].asInt();
-
-        cout << "name: " << name << ", age: " << age << endl;
-    }
-
-    return 0;
+    std::cout << "start server..." << std::endl;
+    svr.listen("0.0.0.0", 8080);
 }
