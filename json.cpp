@@ -9,38 +9,15 @@
 using namespace httplib;
 using namespace std;
 
-// int main(void) {
-//     string json = R"[=======]({"sourceLevel1":"PL0001","sourceLevel2":"BF0001","sourceLevel3":"BC0001","startTag":true})[=======]";
-//     cout << json << endl;
-//     Json::Reader reader;
-//     Json::Value root;
-//     if (!reader.parse(json, root))
-//     {
-//         cout << "reader parse error: " << strerror(errno) << endl;
-//         return -1;
-//     }
-//     string sourceLevel1, sourceLevel2, sourceLevel3;
-//     bool startTag;
-
-//     sourceLevel1 = root["sourceLevel1"].asString();
-//     sourceLevel2 = root["sourceLevel2"].asString();
-//     sourceLevel3 = root["sourceLevel3"].asString();
-//     startTag = root["startTag"].asBool();
-
-//     cout << "sourceLevel1: " << sourceLevel1 << endl;
-//     cout << "sourceLevel1: " << sourceLevel1 << endl;
-//     cout << "sourceLevel1: " << sourceLevel1 << endl;
-//     cout << "startTag: " << startTag << endl;
-// }
-
 bool stop = false;
 int main(void) {
     httplib::Server svr;
     svr.Post("/hi", [](const Request &req, Response &res) {
-        string json = req.body;
+        string reqJsonString = req.body;
         Json::Reader reader;
-        Json::Value root;
-        if (!reader.parse(json, root))
+        Json::Value reqJsonValue;
+
+        if (!reader.parse(reqJsonString, reqJsonValue))
         {
             cout << "reader parse error: " << strerror(errno) << endl;
             return -1;
@@ -48,16 +25,30 @@ int main(void) {
         string sourceLevel1, sourceLevel2, sourceLevel3;
         bool startTag;
 
-        sourceLevel1 = root["sourceLevel1"].asString();
-        sourceLevel2 = root["sourceLevel2"].asString();
-        sourceLevel3 = root["sourceLevel3"].asString();
-        startTag = root["startTag"].asBool();
-
+        sourceLevel1 = reqJsonValue["sourceLevel1"].asString();
+        sourceLevel2 = reqJsonValue["sourceLevel2"].asString();
+        sourceLevel3 = reqJsonValue["sourceLevel3"].asString();
+        startTag = reqJsonValue["startTag"].asBool();
+        stop = startTag;
+///////////////////////////
         cout << "sourceLevel1: " << sourceLevel1 << endl;
         cout << "sourceLevel1: " << sourceLevel1 << endl;
         cout << "sourceLevel1: " << sourceLevel1 << endl;
         cout << "startTag: " << startTag << endl;
-        res.set_content(json, "text/plain");
+///////////////////////////
+
+
+        Json::FastWriter writer;
+	    Json::Value resJsonValue;
+        resJsonValue["success"] = true;
+        resJsonValue["requestId"] = "r010201";
+        resJsonValue["resultCode"] = "C0001";
+        resJsonValue["resultMsg"] = "操作成功";
+        resJsonValue["solution"] = "";
+        resJsonValue["data"] = "";
+        string resJsonSring = writer.write(resJsonValue);
+        cout << resJsonSring << endl;
+        res.set_content(resJsonSring, "text/plain");
     });
 
     std::cout << "start server..." << std::endl;
