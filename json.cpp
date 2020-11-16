@@ -1,7 +1,5 @@
-#include <fstream>
 #include <iostream>
 #include <jsoncpp/json/json.h>
-#include <cassert>
 #include <errno.h>
 #include <string.h>
 
@@ -9,14 +7,12 @@ using namespace std;
 
 int main(void)
 {
-    ifstream ifs;
-    ifs.open("test.json");
-    assert(ifs.is_open());
 
     Json::Reader reader;
     Json::Value root;
+    string s = [{"name":"姓名", "age":27}]
 
-    if (!reader.parse(ifs, root, false))
+    if (!reader.parse(s, false))
     {
         cout << "reader parse error: " << strerror(errno) << endl;
         return -1;
