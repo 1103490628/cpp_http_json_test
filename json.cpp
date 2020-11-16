@@ -12,7 +12,7 @@ int main(void)
     Json::Value root;
     string s = R"[=======]([{"name":"姓名", "age":27}])[=======]";
 
-    if (!reader.parse(s, false))
+    if (!reader.parse(s, root))
     {
         cout << "reader parse error: " << strerror(errno) << endl;
         return -1;
