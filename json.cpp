@@ -8,7 +8,7 @@
 
 using namespace httplib;
 using namespace std;
-
+bool stop = false;
 int switchHandle(const Request &req, Response &res) {
     string reqJsonString = req.body;
     Json::Reader reader;
@@ -49,7 +49,6 @@ int switchHandle(const Request &req, Response &res) {
     res.set_content(resJsonSring, "text/plain");
 }
 
-bool stop = false;
 int main(void) {
     httplib::Server svr;
     svr.Post("/interface/beltConveyorStartSignal/DT0008", switchHandle);
