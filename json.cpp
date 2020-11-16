@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <string.h>
 #include <sstream>
+#include <thread>
 
 #include "httplib.h"
 
@@ -49,10 +50,17 @@ int switchHandle(const Request &req, Response &res) {
     res.set_content(resJsonSring, "text/plain");
 }
 
-int main(void) {
+void switchServer(){
     httplib::Server svr;
-    svr.Post("/interface/beltConveyorStartSignal/DT0008", switchHandle);
-
+    svr.Post("/interface/beltConveyorStartSignal/DT0008", &switchHandle);
     std::cout << "start server..." << std::endl;
     svr.listen("0.0.0.0", 8080);
+}
+
+
+
+int main(void) {
+    
+    thread tServer = thread(&switchServer);
+    tServer.join();
 }
