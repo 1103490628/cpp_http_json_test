@@ -10,7 +10,7 @@ using namespace httplib;
 using namespace std;
 
 int main(void) {
-    string json = R"[=======]({"sourceLevel1": "PL0001","sourceLevel2": "BF0001","sourceLevel3": "BC0001","startTag": true})[=======]";
+    string json = R"[=======]({"sourceLevel1":"PL0001","sourceLevel2":"BF0001","sourceLevel3":"BC0001","startTag":true})[=======]";
     cout << json << endl;
     Json::Reader reader;
     Json::Value root;
