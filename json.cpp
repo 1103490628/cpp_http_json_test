@@ -10,7 +10,7 @@ int main(void)
 
     Json::Reader reader;
     Json::Value root;
-    string s = [{"name":"姓名", "age":27}]
+    string s = "[{"name":"姓名", "age":27}]"
 
     if (!reader.parse(s, false))
     {
